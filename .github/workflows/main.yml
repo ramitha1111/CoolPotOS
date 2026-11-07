@@ -1,3 +1,9 @@
+# Optimized by ci-cost (https://github.com/mariotavarez/ci-cost)
+# Applied 2 optimizations:
+# - [MEDIUM] Add concurrency group to "main.yml"
+# - [MEDIUM] 3 jobs clone the repo — consider artifact sharing
+# Estimated savings: ~3 min/run
+#
 name: CI Workflow
 
 on:
@@ -14,6 +20,10 @@ on:
       - 'readme'
       - '.gitignore'
       - 'README.md'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   x86_64:
     runs-on: ubuntu-latest
